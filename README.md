@@ -50,17 +50,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - **Chart.js**: For audiogram visualization
 - **localStorage**: For persisting test sessions
 
-## Folder Structure
-
-- `/app`: Next.js pages using the App Router
-- `/components`: React components for UI elements
-- `/lib`: Utility functions and type definitions
-
-## License
-
-This project is available as open source under the terms of the MIT License.
-
-## Again
+## Again, Important
 
 - This is NOT a medical diagnostic tool
 - Consult a healthcare professional immediately about hearing concerns

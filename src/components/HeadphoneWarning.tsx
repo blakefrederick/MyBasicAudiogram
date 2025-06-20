@@ -53,7 +53,7 @@ export default function HeadphoneWarning({ onHeadphoneConfirmed }: HeadphoneWarn
             id="headphone"
             value={headphone}
             onChange={handleHeadphoneChange}
-            placeholder="e.g., Sony WH-1000XM5"
+            placeholder="ex. Sony WH-1000XM5"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />

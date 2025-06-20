@@ -101,7 +101,7 @@ export default function TestPage() {
   }
   
   if (!calibrationConfirmed) {
-    return <CalibrationComponent onCalibrated={handleCalibrationConfirmed} />;
+    return <CalibrationComponent onContinue={handleCalibrationConfirmed} />;
   }
   
   return (

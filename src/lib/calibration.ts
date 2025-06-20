@@ -30,6 +30,14 @@ export function useVolumeCalibration() {
     }
   };
 
+  // Get a user-friendly volume reminder message
+  const getVolumeReminderMessage = (): string | null => {
+    if (calibrationVolume === null) return null;
+
+    return `Please set your system volume to approximately ${calibrationVolume}% for consistent results. ` +
+           `Refer to your device's instructions for adjusting system volume (ex. macOS, Windows, iOS).`;
+  };
+
   // Initialize volume monitoring
   useEffect(() => {
     const checkVolume = async () => {
@@ -59,7 +67,7 @@ export function useVolumeCalibration() {
     setCalibrationVolume(volume);
     setIsCalibrated(true);
     setShowVolumeWarning(false);
-    
+
     // Store calibration in localStorage
     if (volume !== null) {
       localStorage.setItem('audiogram_calibration_volume', volume.toString());
@@ -87,6 +95,7 @@ export function useVolumeCalibration() {
     isCalibrated,
     calibrate,
     resetCalibration,
-    showVolumeWarning
+    showVolumeWarning,
+    getVolumeReminderMessage
   };
 }
