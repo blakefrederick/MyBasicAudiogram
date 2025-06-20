@@ -2,9 +2,9 @@
 
 A web application for tracking hearing thresholds over time, built with Next.js, React, Web Audio API, and Chart.js.
 
-## Disclaimer
+## Very Important
 
-Sudden hearing loss is a medical emergency. Seek immediate medical attention, as early treatment is critical. This application is for informational purposes only and should not be used for diagnosis. Accurate hearing assessments require a trained professional, specialized equipment, and a controlled clinical environment. Results from this app may not reflect your true hearing ability.
+Sudden hearing loss is a medical emergency. Seek immediate medical attention, as early treatment is critical. This application is for informational purposes only and should not be used for diagnosis. Accurate hearing assessments require a trained professional, specialized equipment, and a controlled clinical environment. Results from this app do not reflect your true hearing ability.
 
 ## Features
 
