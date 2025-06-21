@@ -55,6 +55,9 @@ export default function CalibrationComponent({ onContinue }) {
           <p className="mb-4">
             {`Please set your system volume to ${localStorage.getItem('audiogram_calibration_volume')} for consistent results.`}
           </p>
+          <p className="mb-4 text-sm text-gray-600">
+            {`Reminder: Use the same headphones (${localStorage.getItem('headphone_model') || 'your preferred headphones'}) for accurate and consistent results.`}
+          </p>
           <div className="flex space-x-4">
             <button
               onClick={resetCalibration}
