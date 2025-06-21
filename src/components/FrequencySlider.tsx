@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Ear } from '@/lib/types';
 import { playTone, gainToDB } from '@/lib/tonePlayer';
 
@@ -19,6 +19,8 @@ export default function FrequencySlider({
 }: FrequencySliderProps) {
   const [gainLevel, setGainLevel] = useState(savedGainLevel || 50);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const sliderRef = useRef<HTMLInputElement>(null);
   
   const handlePlayTone = () => {
     setIsPlaying(true);
@@ -39,8 +41,30 @@ export default function FrequencySlider({
     return freq >= 1000 ? `${freq / 1000}kHz` : `${freq}Hz`;
   };
   
+  // Global key handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isFocused) return;
+      
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setGainLevel((prev) => Math.min(prev + 0.2, 100));
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setGainLevel((prev) => Math.max(prev - 0.2, 0));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFocused]);
+
   return (
-    <div className="p-4 border border-gray-200 rounded-lg mb-4 bg-white">
+    <div 
+      className="p-4 border border-gray-200 rounded-lg mb-4 bg-white"
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+    >
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">
           {formatFrequency(frequency)} ({ear === 'left' ? 'Left' : 'Right'})
@@ -49,7 +73,7 @@ export default function FrequencySlider({
           {gainToDB(gainLevel).toFixed(1)} dB
         </span>
       </div>
-      
+
       <div className="flex items-center space-x-2 mb-4">
         <button
           onClick={handlePlayTone}
@@ -62,17 +86,25 @@ export default function FrequencySlider({
         >
           {isPlaying ? 'Playing...' : 'Play Tone'}
         </button>
-        
+
         <input
+          ref={sliderRef}
           type="range"
           min="0"
           max="100"
           value={gainLevel}
           onChange={(e) => setGainLevel(parseInt(e.target.value, 10))}
-          className="flex-grow h-2 rounded-lg appearance-none cursor-pointer bg-gray-200"
+          className={`flex-grow h-2 rounded-lg appearance-none cursor-pointer ${isFocused ? 'ring-2 ring-blue-500' : 'bg-gray-200'}`}
+          onFocus={() => setIsFocused(true)}
         />
       </div>
-      
+
+      <div className="flex flex-col mb-2">
+        <p className="text-xs text-gray-500 mb-1">
+          {isFocused ? "Use ↑/↓ arrow keys for fine 0.2 dB adjustments" : "Click the slider to enable keyboard control"}
+        </p>
+      </div>
+
       <button
         onClick={handleHeardIt}
         className={`w-full py-2 rounded-md ${
