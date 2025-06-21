@@ -66,47 +66,51 @@ export default function AudiogramChart({
   // Prepare dataset for each session and ear
   const datasets: DatasetType[] = [];
   
-  selectedSessions.forEach(session => {
+  // Ensure the most recent test has the strongest line
+  selectedSessions.forEach((session, index) => {
+    const reverseIndex = selectedSessions.length - 1 - index; 
+    const opacityStep = 0.8 / Math.max(selectedSessions.length - 1, 1);
+    const opacity = 1 - reverseIndex * opacityStep; // Most recent is full opacity
+    const borderWidth = 3 - reverseIndex * 0.5; 
+
     // Add dataset for left ear if requested
     if (showLeftEar) {
       const leftEarData = FREQUENCIES.map(freq => {
         const result = session.data.find(r => 
           r.frequency === freq && r.ear === 'left'
         );
-        // Return gainLevel or null if not found
         return result ? gainToDB(result.gainLevel) : null;
       });
-      
+
       datasets.push({
         label: `${new Date(session.timestamp).toLocaleDateString()} (Left)`,
         data: leftEarData,
-        borderColor: getSessionColor(session.id, 'left', selectedSessionIds),
-        backgroundColor: getSessionColor(session.id, 'left', selectedSessionIds, 0.2),
-        borderWidth: 2,
+        borderColor: getSessionColor(session.id, 'left', selectedSessionIds, opacity),
+        backgroundColor: getSessionColor(session.id, 'left', selectedSessionIds, opacity * 0.2),
+        borderWidth: Math.max(borderWidth, 1),
         pointRadius: 5,
         pointHoverRadius: 7,
       });
     }
-    
+
     // Add dataset for right ear if requested
     if (showRightEar) {
       const rightEarData = FREQUENCIES.map(freq => {
         const result = session.data.find(r => 
           r.frequency === freq && r.ear === 'right'
         );
-        // Return gainLevel or null if not found
         return result ? gainToDB(result.gainLevel) : null;
       });
-      
+
       datasets.push({
         label: `${new Date(session.timestamp).toLocaleDateString()} (Right)`,
         data: rightEarData,
-        borderColor: getSessionColor(session.id, 'right', selectedSessionIds),
-        backgroundColor: getSessionColor(session.id, 'right', selectedSessionIds, 0.2),
-        borderWidth: 2,
+        borderColor: getSessionColor(session.id, 'right', selectedSessionIds, opacity),
+        backgroundColor: getSessionColor(session.id, 'right', selectedSessionIds, opacity * 0.2),
+        borderWidth: Math.max(borderWidth, 1),
         pointRadius: 5,
         pointHoverRadius: 7,
-        borderDash: [5, 5], // Dashed line for right ear
+        borderDash: [5, 5],
       });
     }
   });
