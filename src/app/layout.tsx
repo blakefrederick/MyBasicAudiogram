@@ -51,7 +51,7 @@ export default function RootLayout({
         </main>
         <footer className="mt-12 py-6 bg-white border-t">
           <div className="max-w-6xl mx-auto px-4 text-center text-gray-500 text-sm">
-            <p>MyBasicAudiogram &copy; {new Date().getFullYear()} - Not a medical device</p>
+            <p>MyBasicAudiogram {new Date().getFullYear()} - Not a medical device</p>
             <p className="mt-1">Always consult a healthcare professional for hearing concerns</p>
           </div>
         </footer>
